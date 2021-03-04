@@ -18,24 +18,29 @@ namespace TourSelection.MVC.Controllers
 
         public IActionResult Create(Models.TourSelection model)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            if (ModelState.IsValid)
             {
-                channel.ExchangeDeclare(
-                    exchange: "topic-exchange",
-                    type: "topic");
+                var factory = new ConnectionFactory() { HostName = "localhost" };
 
-                var routingKey = $"tour.{model.TourRequest}";
+                using (var connection = factory.CreateConnection())
+                using (var channel = connection.CreateModel())
+                {
+                    channel.ExchangeDeclare(
+                        exchange: "topic-exchange",
+                        type: "topic");
 
-                var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(model));
+                    var routingKey = $"tour.{model.TourRequest}";
 
-                channel.BasicPublish(
-                    exchange: "topic-exchange",
-                    routingKey: routingKey,
-                    basicProperties: null,
-                    body: body);
+                    var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(model));
+
+                    channel.BasicPublish(
+                        exchange: "topic-exchange",
+                        routingKey: routingKey,
+                        basicProperties: null,
+                        body: body);
+
+                    Console.WriteLine($"{model.Name} has {model.TourRequest} the {model.Tour} tour.");
+                }
             }
 
             return RedirectToAction("Index");

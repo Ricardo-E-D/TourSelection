@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Text;
@@ -24,9 +25,9 @@ namespace TourSelection.EmailService
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (sender, e) =>
                 {
-                    var body = e.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
-                    Console.WriteLine(message);
+                    var message = Encoding.UTF8.GetString(e.Body.ToArray());
+                    var tourSelection = JsonConvert.DeserializeObject<Models.TourSelection>(message);
+                    Console.WriteLine($"{tourSelection.Name} has {tourSelection.TourRequest} the {tourSelection.Tour} tour.");
                 };
 
                 channel.BasicConsume(queueName, true, consumer);

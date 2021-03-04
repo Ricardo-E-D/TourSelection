@@ -8,6 +8,7 @@
 
 <form asp-action="Create" method="post" class="form-horizontal">
 
+    @*--- name ---*@
     <div class="form-group">
         <label asp-for="Name" class="control-label col-md-2"></label>
         <div class="col-md-3">
@@ -16,6 +17,7 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
+    @*--- email ---*@
     <div class="form-group">
         <label asp-for="Email" class="control-label col-md-2"></label>
         <div class="col-md-3">
@@ -24,19 +26,21 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
+    @*--- selected tour ---*@
     <div class="form-group">
         <label asp-for="Tour" class="control-label col-md-2">Tours</label>
         <div class="col-md-2">
             <select asp-for="Tour" class="form-control">
                 <option selected disabled>Choose one</option>
-                <option>Tour 1</option>
-                <option>Tour 2</option>
-                <option>Tour 3</option>
+                <option>Carbon Cliff</option>
+                <option>Lyle</option>
+                <option>Lumber City</option>
             </select>
         </div>
         <span asp-validation-for="Tour" class="text-danger"></span>
     </div>
 
+    @*--- tour action request ---*@
     <div class="form-group">
         <div class="col-md-3">
             <input type="radio" asp-for="TourRequest" value="booked" /> Book
@@ -45,6 +49,7 @@
         <span asp-validation-for="TourRequest" class="text-danger"></span>
     </div>
 
+    @*--- submit ---*@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <button type="submit" class="btn btn-primary">Submit</button>
